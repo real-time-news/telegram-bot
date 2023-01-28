@@ -5,6 +5,8 @@ config();
 const token = process.env.TELEGRAM_TOKEN || "";
 const chatId = process.env.TELEGRAM_CHAT_ID || "";
 
+console.log("process.env", process.env);
+
 const bot = new TelegramBot(token, { polling: true });
 
 // 启动时发送消息;
