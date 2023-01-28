@@ -1,0 +1,24 @@
+name: Push_News
+
+on:
+  schedule:
+    - cron: "*/30 * * * *" # 每半小时执行一次
+  workflow_dispatch:
+
+jobs:
+  fetch_news:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set time zone
+        run: sudo ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "16.x"
+          registry-url: https://npm.pkg.github.com/
+      - name: Current time
+        run: date +%Y-%m-%d\ %H:%M:%S
+      - name: Npm install
+        run: npm install
+      - name: Run Project
+        run: npm run start
