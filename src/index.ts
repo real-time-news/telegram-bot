@@ -5,9 +5,7 @@ config();
 const token = process.env.TELEGRAM_TOKEN || "";
 const chatId = process.env.TELEGRAM_CHAT_ID || "";
 
-console.log("process.env", process.env);
-
-const bot = new TelegramBot(token, { polling: true });
+const bot = new TelegramBot(token, { polling: false });
 
 const date = new Date();
 
@@ -15,10 +13,7 @@ const date = new Date();
 bot.sendMessage(chatId, `Hello World ${date}`);
 
 // 停止机器人
-bot.stopPolling();
-
-//关闭机器人
-bot.close();
+// bot.stopPolling();
 
 // bot.on("message", (msg) => {
 //   setInterval(() => {
