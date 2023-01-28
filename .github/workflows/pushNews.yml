@@ -9,7 +9,7 @@ jobs:
   fetch_news:
     runs-on: ubuntu-latest
     env:
-      TELEGRAM_TOKEN: ${{ secrets.ACTION_TOKEN }}
+      TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
       TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
       START_COMMAND: ${{ secrets.START_COMMAND }}
       STOP_COMMAND: ${{ secrets.STOP_COMMAND }}
