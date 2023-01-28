@@ -34,7 +34,7 @@ jobs:
           git pull
           git add .
           git status
-          git commit -m "Update News" || echo "No changes to commit"
+          git commit -m "Update sentMessageIds" || echo "No changes to commit"
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
