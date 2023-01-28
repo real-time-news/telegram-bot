@@ -12,6 +12,9 @@ const bot = new TelegramBot(token, { polling: true });
 // 启动时发送消息;
 bot.sendMessage(chatId, "Hello World");
 
+// 停止机器人
+bot.stopPolling();
+
 // bot.on("message", (msg) => {
 //   setInterval(() => {
 //     const date = new Date(0);
