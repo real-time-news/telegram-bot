@@ -9,11 +9,16 @@ console.log("process.env", process.env);
 
 const bot = new TelegramBot(token, { polling: true });
 
+const date = new Date();
+
 // 启动时发送消息;
-bot.sendMessage(chatId, "Hello World");
+bot.sendMessage(chatId, `Hello World ${date}`);
 
 // 停止机器人
 bot.stopPolling();
+
+//关闭机器人
+bot.close();
 
 // bot.on("message", (msg) => {
 //   setInterval(() => {
