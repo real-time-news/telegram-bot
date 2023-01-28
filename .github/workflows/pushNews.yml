@@ -27,3 +27,16 @@ jobs:
         run: npm install
       - name: Run Project
         run: npm run start
+            - name: Commit changes
+        run: |
+          git config --local user.email "exposir@foxmail.com"
+          git config --local user.name "exposir"
+          git pull
+          git add .
+          git status
+          git commit -m "Update News" || echo "No changes to commit"
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.ACTION_TOKEN }}
+          branch: main
