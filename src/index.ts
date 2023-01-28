@@ -31,11 +31,11 @@ const start = async () => {
 
     const reverseData = data.reverse();
     reverseData.forEach((item: any, i: number) => {
-      const { title, summary, id } = item;
+      const { title, summary, uuid } = item;
       const text = `${title}\n${summary}\n${"#ReadHub"}`;
-      const isExist = list.includes(id);
+      const isExist = list.includes(uuid);
       if (isExist) return;
-      list.push(id);
+      list.push(uuid);
       sendMessage(text, i);
     });
 
