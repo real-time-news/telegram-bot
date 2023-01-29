@@ -5,6 +5,7 @@ import { config } from "dotenv";
 config();
 const fs = require("fs");
 import path from "path";
+import AIText from "./AIText";
 
 const token = process.env.TELEGRAM_TOKEN || "";
 const chatId = process.env.TELEGRAM_CHAT_ID || "";
@@ -25,19 +26,24 @@ const start = async () => {
     }, i * 3000);
   };
 
-  fs.readFile(filePath, (err, fileData) => {
+  fs.readFile(filePath, async (err, fileData) => {
     const fileDataJson = JSON.parse(fileData.toString());
     const list = [...fileDataJson];
 
     const reverseData = data.reverse();
-    reverseData.forEach((item: any, i: number) => {
-      const { title, summary, uuid } = item;
-      const text = `${title}\n${summary}\n${"#ReadHub"}`;
+
+    for (let i = 0; i < reverseData.length; i++) {
+      const { title, summary, uuid } = reverseData[i];
+
       const isExist = list.includes(uuid);
       if (isExist) return;
+
+      const AITextSummary = await AIText(title + summary);
+      const text = `${title}\n${summary}\n\nAI预测:\n${AITextSummary}\n${"#ReadHub"}`;
+
       list.push(uuid);
       sendMessage(text, i);
-    });
+    }
 
     fs.writeFile(filePath, JSON.stringify([...list]), (err) => {
       if (err) {
