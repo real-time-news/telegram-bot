@@ -39,7 +39,7 @@ const start = async () => {
       if (isExist) return;
 
       const AITextSummary = await AIText(title + summary);
-      const text = `${title}\n${summary}\n\nAI预测:\n${AITextSummary}\n${"#ReadHub"}`;
+      const text = `${title}\n${summary}\n\nAI总结:\n${AITextSummary}\n${"#ReadHub"}`;
 
       list.push(uuid);
       sendMessage(text, i);

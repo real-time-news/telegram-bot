@@ -10,7 +10,7 @@ const AIText = async (prompt?: string) => {
 
   const completion = await openai.createCompletion({
     model: "text-davinci-003",
-    prompt: `${prompt} 请一句话描述这条新闻里潜在的风险和机会。`,
+    prompt: `${prompt} 请一句话评价这条新闻`,
     temperature: 0.7,
     top_p: 1,
     frequency_penalty: 0,
