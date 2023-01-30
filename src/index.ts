@@ -12,6 +12,7 @@ const chatId = process.env.TELEGRAM_CHAT_ID || "";
 
 const start = async () => {
   const today = dayjs().format("YYYY-MM-DD");
+  console.log("today", today);
   const url = `https://raw.githubusercontent.com/real-time-news/readhub/main/data/${today}.json`;
   const res = await fetch(url);
   const data = await res.json();
