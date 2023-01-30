@@ -13,7 +13,6 @@ const chatId = process.env.TELEGRAM_CHAT_ID || "";
 const start = async () => {
   const today = dayjs().format("YYYY-MM-DD");
   const url = `https://raw.githubusercontent.com/real-time-news/readhub/main/data/${today}.json`;
-  console.log(url);
   const res = await fetch(url);
   const data = await res.json();
 
@@ -29,24 +28,25 @@ const start = async () => {
 
   fs.readFile(filePath, async (err, fileData) => {
     const fileDataJson = JSON.parse(fileData.toString());
-    const list = [...fileDataJson];
-
+    const fileDataList = [...fileDataJson];
     const reverseData = data.reverse();
 
     for (let i = 0; i < reverseData.length; i++) {
       const { title, summary, uuid } = reverseData[i];
+      const isExist = fileDataList.includes(uuid);
 
-      const isExist = list.includes(uuid);
-      if (isExist) return;
+      if (isExist) {
+        continue;
+      }
 
       const AITextSummary = await AIText(title + summary);
       const text = `${title}\n${summary}\n\nAI总结:\n${AITextSummary}\n${"#ReadHub"}`;
 
-      list.push(uuid);
+      fileDataList.push(uuid);
       sendMessage(text, i);
     }
 
-    fs.writeFile(filePath, JSON.stringify([...list]), (err) => {
+    fs.writeFile(filePath, JSON.stringify([...fileDataList]), (err) => {
       if (err) {
         console.log(err);
       }
