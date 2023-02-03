@@ -18,7 +18,6 @@ const start = async () => {
   const zaobaoRes = await fetch(zaobaoUrl);
   const data = await res.json();
   const zaobaoData = await zaobaoRes.json();
-  console.log("zaobao", zaobaoData);
 
   const bot = new TelegramBot(token, { polling: false });
 
