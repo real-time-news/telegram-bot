@@ -63,7 +63,7 @@ const start = async () => {
     const reverseData = zaobaoData.reverse();
 
     for (let i = 0; i < reverseData.length; i++) {
-      const { title, uuid } = reverseData[i];
+      const { title, uuid, summary } = reverseData[i];
       const isExist = fileDataList.includes(uuid);
 
       if (isExist) {
@@ -71,7 +71,8 @@ const start = async () => {
       }
 
       const AITextSummary = await AIText(title);
-      const text = `${title}\n\nAI总结:${AITextSummary}\n${"#联合早报"}`;
+
+      const text = `${title}\n${summary}\n\nAI总结:${AITextSummary}\n${"#联合早报"}`;
 
       fileDataList.push(uuid);
       sendMessage(text, i);
