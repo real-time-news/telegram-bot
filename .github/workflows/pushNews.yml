@@ -2,7 +2,7 @@ name: Push_News
 
 on:
   schedule:
-    - cron: "*/30 * * * *" # 每半小时执行一次
+    - cron: "*/1 * * * *" # 每半小时执行一次
   workflow_dispatch:
 
 jobs:
