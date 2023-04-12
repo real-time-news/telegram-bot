@@ -11,7 +11,7 @@ const AIText = async (prompt?: string) => {
   //捕获错误
   try {
     const completion = await openai.createCompletion({
-      model: "text-davinci-003",
+      model: "gpt-3.5-turbo",
       prompt: `${prompt} 请一句话评价这条新闻`,
       temperature: 0.7,
       top_p: 1,
