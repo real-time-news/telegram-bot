@@ -2,7 +2,7 @@ name: Push_News
 
 on:
   schedule:
-    - cron: "*/1 * * * *" # 每半小时执行一次
+    - cron: "*/30 * * * *" # 每半小时执行一次
   workflow_dispatch:
 
 jobs:
@@ -17,28 +17,35 @@ jobs:
     steps:
       - name: Set time zone
         run: sudo ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v2.3.4
+      - uses: actions/setup-node@v2.4.1
         with:
           node-version: "16.x"
           registry-url: https://npm.pkg.github.com/
-      - name: Current time
+      - name: Cache node modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: Display current time
         run: date +%Y-%m-%d\ %H:%M:%S
-      - name: Npm install
-        run: npm install
+      - name: Install dependencies
+        run: npm ci
       - name: Run Project
         run: npm run start
-      - name: Commit changes
+      - name: Commit and push changes
         run: |
           npm run prettier
           git config --local user.email "exposir@foxmail.com"
           git config --local user.name "exposir"
-          git pull
           git add .
           git status
           git commit -m "Update sentMessageIds" || echo "No changes to commit"
+          git push origin main
       - name: Push changes
-        uses: ad-m/github-push-action@master
+        uses: ad-m/github-push-action@v0.6.0
         with:
           github_token: ${{ secrets.ACTION_TOKEN }}
           branch: main
