@@ -1,34 +1,25 @@
-import { Configuration, OpenAIApi } from "openai";
+import OpenAI from "openai";
 
 const AIText = async (prompt?: string) => {
-  const configuration = new Configuration({
-    apiKey: process.env.OPENAI_API_KEY,
+  const openai = new OpenAI({
+    apiKey: "sk-oIkZU9Qgk2Zl31Hs95Cc93266cB745C2B8Ea1c8e21Fd4a44",
+    baseURL: "https://aihubmix.com/v1",
   });
-  const openai = new OpenAIApi(configuration);
 
-  if (!prompt) return Promise.resolve("");
+  const chatCompletion = await openai.chat.completions.create({
+    messages: [{ role: "user", content: `${prompt} 请一句话评价这条新闻` }],
+    model: "gpt-3.5-turbo",
+    stream: false,
+  });
 
-  //捕获错误
-  try {
-    const completion = await openai.createCompletion({
-      model: "gpt-3.5-turbo",
-      prompt: `${prompt} 请一句话评价这条新闻`,
-      temperature: 0.7,
-      top_p: 1,
-      frequency_penalty: 0,
-      presence_penalty: 0,
-      max_tokens: 1000,
-      stream: false,
-      n: 1,
-    });
-    const { data } = completion || {};
-    const { choices } = data || [];
-    const { text } = choices[0] || {};
-    const trimText = text?.trim();
-    return trimText || "";
-  } catch (error) {
-    console.log(error);
-  }
+  const { choices } = chatCompletion || {};
+  const { message = "" } = choices[0] || {};
+
+  const { content = "" } = message || {};
+
+  const trimText = content?.trim();
+
+  return trimText || "";
 };
 
 export default AIText;
