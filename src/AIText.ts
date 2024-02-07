@@ -2,8 +2,8 @@ import OpenAI from "openai";
 
 const AIText = async (prompt?: string) => {
   const openai = new OpenAI({
-    apiKey: "sk-oIkZU9Qgk2Zl31Hs95Cc93266cB745C2B8Ea1c8e21Fd4a44",
-    baseURL: "https://aihubmix.com/v1",
+    apiKey: process.env.OPENAI_API_KEY,
+    baseURL: process.env.BASEURL,
   });
 
   const chatCompletion = await openai.chat.completions.create({
