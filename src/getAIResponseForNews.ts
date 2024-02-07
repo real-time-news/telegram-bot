@@ -12,12 +12,6 @@ export const getAIResponseForNews = async (prompt?: string) => {
     stream: false,
   });
 
-  const { choices } = chatCompletion || {};
-  const { message = "" } = choices[0] || {};
-
-  const { content = "" } = message || {};
-
-  const trimText = content?.trim();
-
-  return trimText || "";
+  const content = chatCompletion?.choices[0]?.message?.content || "";
+  return content?.trim() || "";
 };
