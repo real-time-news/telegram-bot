@@ -30,7 +30,7 @@ const start = async () => {
 
   await fs.readFile(filePath, async (err, fileData) => {
     const fileDataJson = JSON.parse(fileData.toString());
-    const fileDataList = [...fileDataJson];
+    let fileDataList = [...fileDataJson];
     const reverseData = readhubData.reverse();
 
     for (let i = 0; i < reverseData.length; i++) {
@@ -48,6 +48,10 @@ const start = async () => {
       sendMessage(text, i);
     }
 
+    if (fileDataList.length >= 2000) {
+      fileDataList = fileDataList.slice(1000);
+    }
+
     fs.writeFile(filePath, JSON.stringify([...fileDataList]), (err) => {
       if (err) {
         console.log(err);
@@ -57,7 +61,7 @@ const start = async () => {
 
   await fs.readFile(filePath, async (err, fileData) => {
     const fileDataJson = JSON.parse(fileData.toString());
-    const fileDataList = [...fileDataJson];
+    let fileDataList = [...fileDataJson];
     const reverseData = zaobaoData.reverse();
 
     for (let i = 0; i < reverseData.length; i++) {
@@ -76,7 +80,11 @@ const start = async () => {
       sendMessage(text, i);
     }
 
-    fs.writeFile(filePath, JSON.stringify([...fileDataList]), (err) => {
+    if (fileDataList.length >= 2000) {
+      fileDataList = fileDataList.slice(1000);
+    }
+
+    fs.writeFile(filePath, JSON.stringify(fileDataList), (err) => {
       if (err) {
         console.log(err);
       }
