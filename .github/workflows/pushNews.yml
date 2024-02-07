@@ -33,7 +33,7 @@ jobs:
       - name: Display current time
         run: date +%Y-%m-%d\ %H:%M:%S
       - name: Install dependencies
-        run: npm ci
+        run: npm install
       - name: Run Project
         run: npm run start
       - name: Commit and push changes
