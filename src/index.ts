@@ -1,11 +1,12 @@
 import fetch from "node-fetch";
 import TelegramBot from "node-telegram-bot-api";
 import dayjs from "dayjs";
-import { config } from "dotenv";
-config();
-const fs = require("fs");
 import path from "path";
-import AIText from "./AIText";
+import { config } from "dotenv";
+import { getAIResponseForNews } from "./getAIResponseForNews";
+
+const fs = require("fs");
+config();
 
 const token = process.env.TELEGRAM_TOKEN || "";
 const chatId = process.env.TELEGRAM_CHAT_ID || "";
@@ -34,7 +35,7 @@ const start = async () => {
     const fileDataList = [...fileDataJson];
     const reverseData = data.reverse();
 
-    for (let i = 0; i < reverseData.length; i++) {
+    for (const i = 0; i < reverseData.length; i++) {
       const { title, summary, uuid } = reverseData[i];
       const isExist = fileDataList.includes(uuid);
 
@@ -42,7 +43,7 @@ const start = async () => {
         continue;
       }
 
-      const AITextSummary = await AIText(title + summary);
+      const AITextSummary = await getAIResponseForNews(title + summary);
       const text = `${title}\n${summary}\n\nAI总结:${AITextSummary}\n${"#ReadHub"}`;
 
       fileDataList.push(uuid);
@@ -61,7 +62,7 @@ const start = async () => {
     const fileDataList = [...fileDataJson];
     const reverseData = zaobaoData.reverse();
 
-    for (let i = 0; i < reverseData.length; i++) {
+    for (const i = 0; i < reverseData.length; i++) {
       const { title, uuid, summary } = reverseData[i];
       const isExist = fileDataList.includes(uuid);
 
