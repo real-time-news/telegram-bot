@@ -13,11 +13,11 @@ const bot = new TelegramBot(token, { polling: false });
 
 const start = async () => {
   const today = dayjs().format("YYYY-MM-DD");
-  const url = `https://raw.githubusercontent.com/real-time-news/readhub/main/data/${today}.json`;
+  const readhubUrl = `https://raw.githubusercontent.com/real-time-news/readhub/main/data/${today}.json`;
   const zaobaoUrl = `https://raw.githubusercontent.com/real-time-news/zaobao/main/data/${today}.json`;
-  const res = await fetch(url);
+  const readhubRes = await fetch(readhubUrl);
   const zaobaoRes = await fetch(zaobaoUrl);
-  const data = await res.json();
+  const readhubData = await readhubRes.json();
   const zaobaoData = await zaobaoRes.json();
 
   const filePath = path.resolve(__dirname, `../data/sentMessageIds.json`);
@@ -31,7 +31,7 @@ const start = async () => {
   await fs.readFile(filePath, async (err, fileData) => {
     const fileDataJson = JSON.parse(fileData.toString());
     const fileDataList = [...fileDataJson];
-    const reverseData = data.reverse();
+    const reverseData = readhubData.reverse();
 
     for (let i = 0; i < reverseData.length; i++) {
       const { title, summary, uuid } = reverseData[i];
