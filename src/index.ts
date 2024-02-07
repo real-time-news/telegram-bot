@@ -5,11 +5,11 @@ import path from "path";
 import { config } from "dotenv";
 import { getAIResponseForNews } from "./getAIResponseForNews";
 
-const fs = require("fs");
 config();
-
+const fs = require("fs");
 const token = process.env.TELEGRAM_TOKEN || "";
 const chatId = process.env.TELEGRAM_CHAT_ID || "";
+const bot = new TelegramBot(token, { polling: false });
 
 const start = async () => {
   const today = dayjs().format("YYYY-MM-DD");
@@ -20,11 +20,9 @@ const start = async () => {
   const data = await res.json();
   const zaobaoData = await zaobaoRes.json();
 
-  const bot = new TelegramBot(token, { polling: false });
-
   const filePath = path.resolve(__dirname, `../data/sentMessageIds.json`);
 
-  const sendMessage = (text, i) => {
+  const sendMessage = (text: string, i: number) => {
     setTimeout(() => {
       bot.sendMessage(chatId, text);
     }, i * 3000);
@@ -35,7 +33,7 @@ const start = async () => {
     const fileDataList = [...fileDataJson];
     const reverseData = data.reverse();
 
-    for (const i = 0; i < reverseData.length; i++) {
+    for (let i = 0; i < reverseData.length; i++) {
       const { title, summary, uuid } = reverseData[i];
       const isExist = fileDataList.includes(uuid);
 
@@ -62,7 +60,7 @@ const start = async () => {
     const fileDataList = [...fileDataJson];
     const reverseData = zaobaoData.reverse();
 
-    for (const i = 0; i < reverseData.length; i++) {
+    for (let i = 0; i < reverseData.length; i++) {
       const { title, uuid, summary } = reverseData[i];
       const isExist = fileDataList.includes(uuid);
 
@@ -70,7 +68,7 @@ const start = async () => {
         continue;
       }
 
-      const AITextSummary = await AIText(title);
+      const AITextSummary = await getAIResponseForNews(title);
 
       const text = `${title}\n${summary}\n\nAI总结:${AITextSummary}\n${"#联合早报"}`;
 
