@@ -3,7 +3,7 @@ import TelegramBot from "node-telegram-bot-api";
 import dayjs from "dayjs";
 import path from "path";
 import { config } from "dotenv";
-import { getAIResponseForNews } from "./getAIResponseForNews";
+// import { getAIResponseForNews } from "./getAIResponseForNews";
 
 config();
 const fs = require("fs");
@@ -41,7 +41,8 @@ const start = async () => {
         continue;
       }
 
-      const AITextSummary = await getAIResponseForNews(title + summary);
+      // const AITextSummary = await getAIResponseForNews(title + summary);
+      const AITextSummary = "暂无";
       const text = `${title}\n${summary}\n\nAI总结:${AITextSummary}\n${"#ReadHub"}`;
 
       fileDataList.push(uuid);
