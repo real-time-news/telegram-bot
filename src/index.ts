@@ -72,7 +72,8 @@ const start = async () => {
         continue;
       }
 
-      const AITextSummary = await getAIResponseForNews(title);
+      // const AITextSummary = await getAIResponseForNews(title);
+      const AITextSummary = "暂无";
 
       const text = `${title}\n${summary}\n\nAI总结:${AITextSummary}\n${"#联合早报"}`;
 
